@@ -1,7 +1,5 @@
 # Automated Quality Filtering for Diabetic Retinopathy Datasets
-
 ---
-
 ## Overview
 
 This is an automated quality filtering system for diabetic retinopathy (DR) fundus image datasets.  
@@ -261,13 +259,6 @@ Contributions are welcome. Please feel free to submit issues or pull requests fo
 - Documentation improvements
 
 ## Authors
-
-
-
-## License
-
-This project is licensed under the MIT License ©.  
-See the [LICENSE](LICENSE) file for the full license text.
 
 
 **Disclaimer**: This system is designed for research purposes. Clinical applications require additional validation and regulatory approval.
