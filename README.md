@@ -1,14 +1,18 @@
 # Automated Quality Filtering for Diabetic Retinopathy Datasets
 
-
+---
 
 ## Overview
 
-This is an automated quality filtering system for diabetic retinopathy (DR) fundus image datasets. The system addresses a critical challenge in medical AI: ensuring dataset quality for robust model training. Using adaptive quality thresholds and medical image-specific metrics, it systematically identifies and removes low-quality images while preserving clinically relevant data.
-All the datasets used in this are publically available.
+This is an automated quality filtering system for diabetic retinopathy (DR) fundus image datasets.  
+It addresses a critical challenge in medical AI: ensuring dataset quality for robust model training.  
+Using adaptive quality thresholds and medical image-specific metrics, it systematically identifies and removes low-quality images while preserving clinically relevant data.  
+
+All datasets used in this work are publicly available.  
 The structure can be adapted as needed to accommodate other datasets.
 
-**Research Paper**: 
+**Research Paper:** *(Link will be added upon publication)*
+
 
 ## Methodology
 
