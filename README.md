@@ -263,7 +263,7 @@ Contributions are welcome. Please feel free to submit issues or pull requests fo
 
 ## License
 
-This project is licensed under the MIT License © 2025 Kushal Gajjar.  
+This project is licensed under the MIT License ©.  
 See the [LICENSE](LICENSE) file for the full license text.
 
 
