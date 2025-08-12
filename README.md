@@ -30,12 +30,12 @@ Where:
 
 | Dataset | Images | Description | Download Link |
 |---------|--------|-------------|---------------|
-| APTOS 2019 | ~3,662 | Kaggle competition dataset | https://drive.google.com/drive/folders/18XaqQgzIusAueBidzt_tw2OaAEkeRO2B?usp=sharing |
-| Diabetic Retinopathy V03 | ~35,126 | Large-scale validation set | https://drive.google.com/drive/folders/1-TPYISpRgEVoAY_1TvUlMGSu9AcYnu92?usp=sharing |
-| IDRiD | ~516 | High-resolution research benchmark | https://drive.google.com/drive/folders/10qt1OEHA_U5LUkDzjw4yNpuwi4q-K2Jr?usp=sharing |
-| Messidor-2 | ~1,748 | Clinical validation standard | https://drive.google.com/drive/folders/1SoIoWLuj7x5BxEjExNvxT2eyni1sHp7E?usp=sharing |
-| SUSTech-SYSU | ~1,200 | Asian population dataset | https://drive.google.com/drive/folders/1snZ9ytvODIzpkxij7hwr0teg7L0Iu5m7?usp=sharing |
-| DeepDRiD | ~2,000 | Recent competition data | https://drive.google.com/drive/folders/1Mbo7IxKUXw0CQ7ncvjeyww_Og2HWVXJT?usp=sharing |
+| APTOS 2019 | ~3,662 | Kaggle competition dataset | https://www.kaggle.com/competitions/aptos2019-blindness-detection |
+| Diabetic Retinopathy V03 | ~35,126 | Large-scale validation set | https://zenodo.org/records/4891308 |
+| IDRiD | ~516 | High-resolution research benchmark | https://ieee-dataport.org/open-access/indian-diabetic-retinopathy-image-dataset-idrid |
+| Messidor-2 | ~1,748 | Clinical validation standard | https://www.adcis.net/en/third-party/messidor2/ |
+| SUSTech-SYSU | ~1,200 | Asian population dataset | https://figshare.com/articles/dataset/The_SUSTech-SYSU_dataset_for_automated_exudate_detection_and_diabetic_retinopathy_grading/12570770?file=25320596 |
+| DeepDRiD | ~2,000 | Recent competition data | https://github.com/deepdrdoc/DeepDRiD |
 
  
 
