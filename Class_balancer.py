@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-"""
-Medical-Safe DR Dataset Balancer - Standalone Version
-
-Professional dataset balancing module for diabetic retinopathy fundus images
-using only anatomically-preserving augmentations suitable for medical imaging.
-
-Author: Research Team
-Date: 2024
-"""
 
 import os
 import cv2
@@ -560,4 +551,5 @@ def main():
     print("Medical dataset balancing completed")
 
 if __name__ == "__main__":
+
     main()
