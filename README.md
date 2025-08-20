@@ -26,68 +26,6 @@ Where:
 
 An image is accepted if its composite quality score exceeds the severity-specific threshold determined during dataset calibration.
 
-## Medical-Safe Dataset Balancing
-
-### Overview
-
-The system includes a sophisticated class balancing module that addresses dataset imbalance using only **anatomically-preserving augmentations** suitable for medical fundus imaging. Unlike general computer vision augmentations, this module specifically avoids transformations that could create anatomically impossible configurations.
-
-### Key Features
-
-**Medical Safety First:**
-- No horizontal/vertical flips (would create anatomically impossible retinal orientations)
-- No elastic deformations that could distort vessel patterns
-- Preserves anatomical relationships critical for diagnosis
-- Quality assessment for every augmented image
-
-**Severity-Adaptive Augmentation:**
-- Different augmentation strategies based on DR severity (0-4)
-- More conservative augmentations for severe cases to preserve diagnostic features
-- Maintains clinical relevance across all severity levels
-
-### Augmentation Techniques
-
-The balancer employs seven medical-appropriate augmentation methods:
-
-| Technique | Description | Medical Rationale |
-|-----------|-------------|-------------------|
-| **Quality-Preserving Rotation** | Small rotations (±12°) | Simulates natural head positioning variations |
-| **Medical Brightness/Contrast** | Conservative illumination adjustments | Accounts for different camera settings |
-| **Fundus-Specific Enhancement** | CLAHE on green channel | Standard ophthalmological image processing |
-| **Vessel-Preserving Noise** | Minimal noise with bilateral filtering | Maintains vessel structure integrity |
-| **Color Temperature Shift** | Simulates camera color variations | Different fundus camera manufacturers |
-| **Medical Zoom/Crop** | Controlled zoom with interpolation | Field of view variations |
-| **Gamma Correction** | Contrast curve adjustments | Display calibration differences |
-
-### Severity-Specific Strategies
-
-Augmentation aggressiveness is adapted based on DR severity to preserve diagnostic quality:
-
-| DR Grade | Clinical Name | Augmentation Strategy | Rationale |
-|----------|---------------|----------------------|-----------|
-| 0 | No DR | 7 combination types | Higher tolerance for screening images |
-| 1 | Mild DR | 7 combination types | Balanced augmentation approach |
-| 2 | Moderate DR | 6 combination types | Reduced complexity to preserve features |
-| 3 | Severe DR | 5 combination types | Conservative to maintain pathology visibility |
-| 4 | Proliferative DR | 4 combination types | Minimal augmentation for rare, critical cases |
-
-### Quality Control System
-
-Every augmented image undergoes rigorous quality assessment:
-
-**Quality Metrics:**
-- **Sharpness preservation**: Laplacian variance comparison
-- **Brightness conservation**: Mean luminance stability  
-- **Contrast maintenance**: Standard deviation analysis
-- **Overall quality score**: Weighted combination (threshold: 0.7)
-
-**Acceptance Criteria:**
-```
-Quality Score = 0.4 × Sharpness_Ratio + 0.3 × (1 - Brightness_Diff) + 0.3 × Contrast_Ratio
-```
-
-Only images scoring >0.7 are accepted, ensuring augmented images maintain medical diagnostic quality.
-
 ## Supported Datasets
 
 | Dataset | Images | Description | Download Link |
@@ -291,6 +229,67 @@ balanced_dataset/
 ├── balancing_statistics.json          # Detailed balancing metrics
 └── augmentation_report.txt            # Human-readable summary
 ```
+## Dataset Balancing
+
+### Overview
+
+The system includes a sophisticated class balancing module that addresses dataset imbalance using only **anatomically-preserving augmentations** suitable for medical fundus imaging. Unlike general computer vision augmentations, this module specifically avoids transformations that could create anatomically impossible configurations.
+
+### Key Features
+
+**Medical Safety First:**
+- No horizontal/vertical flips (would create anatomically impossible retinal orientations)
+- No elastic deformations that could distort vessel patterns
+- Preserves anatomical relationships critical for diagnosis
+- Quality assessment for every augmented image
+
+**Severity-Adaptive Augmentation:**
+- Different augmentation strategies based on DR severity (0-4)
+- More conservative augmentations for severe cases to preserve diagnostic features
+- Maintains clinical relevance across all severity levels
+
+### Augmentation Techniques
+
+The balancer employs seven medical-appropriate augmentation methods:
+
+| Technique | Description | Medical Rationale |
+|-----------|-------------|-------------------|
+| **Quality-Preserving Rotation** | Small rotations (±12°) | Simulates natural head positioning variations |
+| **Medical Brightness/Contrast** | Conservative illumination adjustments | Accounts for different camera settings |
+| **Fundus-Specific Enhancement** | CLAHE on green channel | Standard ophthalmological image processing |
+| **Vessel-Preserving Noise** | Minimal noise with bilateral filtering | Maintains vessel structure integrity |
+| **Color Temperature Shift** | Simulates camera color variations | Different fundus camera manufacturers |
+| **Medical Zoom/Crop** | Controlled zoom with interpolation | Field of view variations |
+| **Gamma Correction** | Contrast curve adjustments | Display calibration differences |
+
+### Severity-Specific Strategies
+
+Augmentation aggressiveness is adapted based on DR severity to preserve diagnostic quality:
+
+| DR Grade | Clinical Name | Augmentation Strategy | Rationale |
+|----------|---------------|----------------------|-----------|
+| 0 | No DR | 7 combination types | Higher tolerance for screening images |
+| 1 | Mild DR | 7 combination types | Balanced augmentation approach |
+| 2 | Moderate DR | 6 combination types | Reduced complexity to preserve features |
+| 3 | Severe DR | 5 combination types | Conservative to maintain pathology visibility |
+| 4 | Proliferative DR | 4 combination types | Minimal augmentation for rare, critical cases |
+
+### Quality Control System
+
+Every augmented image undergoes rigorous quality assessment:
+
+**Quality Metrics:**
+- **Sharpness preservation**: Laplacian variance comparison
+- **Brightness conservation**: Mean luminance stability  
+- **Contrast maintenance**: Standard deviation analysis
+- **Overall quality score**: Weighted combination (threshold: 0.7)
+
+**Acceptance Criteria:**
+```
+Quality Score = 0.4 × Sharpness_Ratio + 0.3 × (1 - Brightness_Diff) + 0.3 × Contrast_Ratio
+```
+
+Only images scoring >0.7 are accepted, ensuring augmented images maintain medical diagnostic quality.
 
 ### Balancing Output Structure
 
