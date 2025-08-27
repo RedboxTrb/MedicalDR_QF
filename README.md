@@ -1,19 +1,16 @@
 # Automated Quality Filtering for Diabetic Retinopathy Datasets
----
+
 ## Overview
 
-This is an automated quality filtering system for diabetic retinopathy (DR) fundus image datasets.  
-It addresses a critical challenge in medical AI: ensuring dataset quality for robust model training.  
-Using adaptive quality thresholds and medical image-specific metrics, it systematically identifies and removes low-quality images while preserving clinically relevant data.  
+This is an automated quality filtering system for diabetic retinopathy (DR) fundus image datasets. It addresses a critical challenge in medical AI: ensuring dataset quality for robust model training. Using adaptive quality thresholds and medical image-specific metrics, it systematically identifies and removes low-quality images while preserving clinically relevant data.
 
-All datasets used in this work are publicly available.  
-The structure can be adapted as needed to accommodate other datasets.
+All datasets used in this work are publicly available. The structure can be adapted as needed to accommodate other datasets.
 
 **Research Paper:** *(Link will be added upon publication)*
 
-#### Composite Quality Scoring
+### Composite Quality Scoring
 
-The final composite score integrates normalized quality metrics using a weighted combination of three quality components across 10 key image quality dimensions:
+The system uses a 3-component quality scoring methodology that integrates normalized quality metrics:
 
 ```
 Composite Quality = 0.25 × BasicQuality + 0.55 × MedicalQuality + 0.20 × TechnicalQuality
@@ -52,7 +49,7 @@ BASE_PATH/
 └── [additional datasets...]
 ```
 
-### Quality Metrics
+## Quality Metrics
 
 **Basic Quality Domain (4 metrics):**
 - **Brightness**: Global luminance evaluation to detect exposure extremes
@@ -75,7 +72,7 @@ BASE_PATH/
 - File integrity and size validation
 - Multi-channel color analysis
 
-## Installation and Usage
+## Installation and Setup
 
 ### Prerequisites
 
@@ -84,17 +81,15 @@ pip install opencv-python numpy pandas matplotlib
 pip install scikit-learn jupyter notebook
 ```
 
-### Setup
+### Setup Process
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/dr-quality-filtering.git
-cd dr-quality-filtering
-```
+1. Clone or download the repository files:
+   - `Quality_Filtering.ipynb` - Main analysis notebook
+   - `Class_balancer.py` - Dataset balancing script
 
 2. Configure dataset paths in cell 2 of the notebook:
 ```python
-BASE_PATH = r"Path/to/your/dataset"
+BASE_PATH = "Path/to/your/dataset"
 ```
 
 3. Execute the notebook sequentially:
@@ -102,20 +97,30 @@ BASE_PATH = r"Path/to/your/dataset"
 jupyter notebook Quality_Filtering.ipynb
 ```
 
-### Complete Workflow: Quality Filtering + Balancing
+## Complete Workflow
 
-**Phase 1: Quality Filtering (Cells 1-17)**
+### Phase 1: Quality Filtering (Notebook Cells 1-17)
+
+**System Setup (Cells 1-5)**
 - Environment configuration and dataset validation
 - Quality identifier initialization
+
+**Dataset Analysis (Cells 6-13)**
 - Statistical characterization and profile generation
 - Comprehensive quality assessment across all images
 - Results compilation and statistical reporting
+
+**Review and Validation (Cells 14-16)**  
 - Manual review interface generation
 - Threshold adjustment capabilities
 - Quality assessment validation
-- Creation of cleaned, production-ready dataset
 
-**Phase 2: Medical-Safe Balancing**
+**Dataset Generation (Cell 17)**
+- Creation of cleaned, production-ready dataset
+- Comprehensive statistics and summary reports
+
+### Phase 2: Medical-Safe Balancing
+
 After quality filtering, apply class balancing using the medical-safe augmentation system:
 
 ```bash
@@ -123,7 +128,10 @@ After quality filtering, apply class balancing using the medical-safe augmentati
 python Class_balancer.py --source /path/to/cleaned/dataset --output /path/to/balanced/dataset
 
 # With custom configuration
-python Class_balancer.py --config balancer_config.json
+python Class_balancer.py --config medical_balancer_config.json
+
+# Custom quality threshold
+python Class_balancer.py --source /data/cleaned --output /data/balanced --quality-threshold 0.8
 
 # Create example configuration file
 python Class_balancer.py --create-config
@@ -155,38 +163,12 @@ target_distribution = {
     "3": 750,
     "4": 800
   },
+  "quality_threshold": 0.7,
   "random_seed": 42
 }
 ```
 
-### Execution Workflow
-
-**Phase 1: System Setup (Cells 1-5)**
-- Environment configuration and dataset validation
-- Quality identifier initialization
-
-**Phase 2: Dataset Analysis (Cells 6-13)**
-- Statistical characterization and profile generation
-- Comprehensive quality assessment across all images
-- Results compilation and statistical reporting
-
-**Phase 3: Review and Validation (Cells 14-16)**
-- Manual review interface generation
-- Threshold adjustment capabilities
-- Quality assessment validation
-
-**Phase 4: Dataset Generation (Cell 17)**
-- Creation of cleaned, production-ready dataset
-- Comprehensive statistics and summary reports
-
-**Phase 5: Medical-Safe Balancing**
-- Apply anatomically-preserving augmentations
-- Generate balanced dataset with quality control
-- Preserve diagnostic features across all severity levels
-
-### Severity-Adaptive Thresholds
-
-You can adjust the Removal Percentiles as per your requirements.
+## Severity-Adaptive Thresholds
 
 Quality thresholds are dynamically adjusted based on DR severity to preserve diagnostically critical images:
 
@@ -197,6 +179,8 @@ Quality thresholds are dynamically adjusted based on DR severity to preserve dia
 | 2 | Moderate DR | 10% | Increased clinical importance |
 | 3 | Severe DR | 8% | Critical for diagnosis |
 | 4 | Proliferative DR | 5% | Maximum retention for rare cases |
+
+You can adjust these removal percentiles in the notebook (cell 16) as needed for your specific requirements.
 
 ## Output Structure
 
@@ -228,7 +212,7 @@ DREAM_dataset_cleaned/
 ```
 balanced_dataset/
 ├── 0/ ... 4/                          # Balanced classes with augmented images
-├── balancing_statistics.json          # Detailed balancing metrics
+├── balancing_stats.json               # Detailed balancing metrics
 └── augmentation_report.txt            # Human-readable summary
 ```
 
@@ -285,34 +269,20 @@ Every augmented image undergoes rigorous quality assessment:
 - **Sharpness preservation**: Laplacian variance comparison
 - **Brightness conservation**: Mean luminance stability  
 - **Contrast maintenance**: Standard deviation analysis
-- **Overall quality score**: Weighted combination (threshold: 0.7)
+- **Overall quality score**: Weighted combination (default threshold: 0.7)
 
 **Acceptance Criteria:**
 ```
 Quality Score = 0.4 × Sharpness_Ratio + 0.3 × (1 - Brightness_Diff) + 0.3 × Contrast_Ratio
 ```
 
-Only images scoring >0.7 are accepted, ensuring augmented images maintain medical diagnostic quality.
-
-### Balancing Output Structure
-
-The medical balancer generates comprehensive output files:
-
-**Augmented Images:**
-- `original_[filename]`: Original images (preserved exactly)
-- `aug_[technique]_[id]_[source]`: Augmented images with technique tracking
-
-**Statistics Files:**
-- `balancing_statistics.json`: Complete processing metrics
-- Processing time and efficiency data
-- Quality scores for all augmented images
-- Original vs augmented image counts per class
+Only images scoring above the quality threshold are accepted, ensuring augmented images maintain medical diagnostic quality.
 
 ## Configuration
 
 ### Manual Threshold Adjustment
 
-Fine-tune quality standards in cell 16:
+Fine-tune quality standards in notebook cell 15:
 
 ```python
 manual_thresholds = {
@@ -324,7 +294,7 @@ manual_thresholds = {
 }
 ```
 
-### Balancing Configuration
+### Balancing Configuration Options
 
 **Target Distribution Customization:**
 ```python
@@ -336,10 +306,10 @@ aggressive_distribution = {0: 1200, 1: 1000, 2: 1100, 3: 1000, 4: 1100}
 ```
 
 **Quality Control Parameters:**
-```python
-# Adjust quality thresholds
-quality_threshold = 0.7      # Default: 0.7 (stricter: 0.8, lenient: 0.6)
-max_attempts_ratio = 3       # Maximum augmentation attempts per target image
+```bash
+# Adjust quality thresholds via command line
+python Class_balancer.py --quality-threshold 0.6  # More lenient
+python Class_balancer.py --quality-threshold 0.8  # More strict (default: 0.7)
 ```
 
 ## Performance Characteristics
@@ -360,23 +330,21 @@ max_attempts_ratio = 3       # Maximum augmentation attempts per target image
 - Reduced training instability and faster convergence
 - Enhanced cross-dataset generalization
 - Preserved diagnostic quality while removing technical artifacts
-- Improved class balance without sacrificing medical validity
 
 ### System Parameters
 
 Key configurable parameters:
 - `N_SAMPLES_PER_DATASET`: Number of images for characterization (default: 300)
-- Quality score weighting: Basic vs medical metrics ratio
-- Resolution threshold: Minimum acceptable image dimensions
+- Quality score weighting: Basic vs medical vs technical metrics ratio (25%:55%:20%)
+- Resolution threshold: Minimum acceptable image dimensions (224x224)
 - Processing batch size: Memory management optimization
 - Augmentation quality threshold: Minimum quality score for acceptance (default: 0.7)
-- Maximum augmentation attempts: Safety limit for processing time
 
 ## Technical Implementation
 
 ### Architecture
 
-The system implements a modular architecture with the following components:
+The system implements a modular architecture with these components:
 
 - **QualityIdentifier Class**: Core analysis engine with medical image-specific methods
 - **MedicalDRBalancer Class**: Medical-safe augmentation and balancing engine
@@ -399,11 +367,6 @@ The system implements a modular architecture with the following components:
 4. Accept/reject based on medical quality thresholds
 5. Track all transformations for reproducibility
 
-**Memory Management:**
-- Garbage collection at regular intervals
-- Progress tracking for long-running operations
-- Error handling and recovery mechanisms
-
 ## Troubleshooting
 
 **Common Issues:**
@@ -416,7 +379,7 @@ python -c "import os; print([d for d in os.listdir('your/path') if os.path.isdir
 
 Memory optimization for large datasets:
 ```python
-N_SAMPLES_PER_DATASET = 150  # Reduce from default 300
+N_SAMPLES_PER_DATASET = 150  # Reduce from default 300 in notebook cell 2
 ```
 
 **Balancing Issues:**
@@ -438,9 +401,9 @@ for i in range(5):
 ```
 
 Quality control adjustment:
-```python
+```bash
 # If too many augmentations are rejected, lower the threshold
-quality_threshold = 0.6  # Default: 0.7
+python Class_balancer.py --quality-threshold 0.6  # Default: 0.7
 ```
 
 **Performance Optimization:**
@@ -454,24 +417,31 @@ quality_threshold = 0.6  # Default: 0.7
 If you use this system in your research, please cite:
 
 ```bibtex
-xxx
+@article{your_paper_2024,
+  title={Automated Quality Filtering for Diabetic Retinopathy Datasets},
+  author={Your Authors},
+  journal={Your Journal},
+  year={2024}
+}
 ```
 
 ## Contributing
 
-Contributions are welcome. Please feel free to submit issues or pull requests for:
+Contributions are welcome. Please submit issues or pull requests for:
 - Additional quality metrics
 - Support for new dataset formats
 - Performance optimizations
 - Documentation improvements
 - New medical-safe augmentation techniques
 
-## Authors
+## License
 
-**Disclaimer**: This system is designed for research purposes. Clinical applications require additional validation and regulatory approval.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
 - Dataset providers for making their data publicly available
 - OpenCV and scikit-learn communities for foundational tools
 - Medical imaging research community for validation and feedback
+
+**Disclaimer**: This system is designed for research purposes. Clinical applications require additional validation and regulatory approval.
